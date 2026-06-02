@@ -179,4 +179,94 @@
     "ncees": "Statics Section: Determinate vs. Indeterminate Structures",
     "imageUrl": ""
   }
+{
+    "id": 13,
+    "category": "Statics",
+    "question": "A force vector is given by F = 3i + 4j + 12k (in Newtons). What is the magnitude of this force?",
+    "options": [
+      "12 N",
+      "13 N",
+      "15 N",
+      "19 N"
+    ],
+    "answer": 1,
+    "hint": "The magnitude of a 3D vector is the square root of the sum of the squares of its components: sqrt(3^2 + 4^2 + 12^2).",
+    "ncees": "Statics Section: Vector Mechanics",
+    "imageUrl": ""
+  },
+  {
+    "id": 14,
+    "category": "Statics",
+    "question": "A simply supported beam of length L is subjected to a uniform distributed load 'w' across its entire span. What is the total resultant force acting on the beam?",
+    "options": [
+      "w * L",
+      "w * L / 2",
+      "w * L^2 / 2",
+      "w * L / 4"
+    ],
+    "answer": 0,
+    "hint": "The resultant force of a uniform distributed load is simply the area under the loading diagram: load intensity times length.",
+    "ncees": "Statics Section: Distributed Loads",
+    "imageUrl": "uniform_load_diagram.png"
+  },
+  {
+    "id": 15,
+    "category": "Statics",
+    "question": "Using the Method of Sections on a truss, you cut through three members. To solve for the force in the bottom chord, you take the moment about a joint. Where should you choose that joint to isolate the bottom chord force effectively?",
+    "options": [
+      "The joint where the top two members intersect",
+      "The joint furthest from the section cut",
+      "The center of the truss",
+      "Any arbitrary joint"
+    ],
+    "answer": 0,
+    "hint": "By taking the moment about the joint where the other two cut members intersect, their forces pass through the pivot and are eliminated from the moment equilibrium equation.",
+    "ncees": "Statics Section: Method of Sections",
+    "imageUrl": "truss_section_method.png"
+  },
+  {
+    "id": 16,
+    "category": "Statics",
+    "question": "A block is on an inclined plane. If the angle of inclination (\u03b8) is increased until the block just begins to slide, what is the relationship between the coefficient of static friction (\u03bcs) and the angle \u03b8?",
+    "options": [
+      "\u03bcs = sin(\u03b8)",
+      "\u03bcs = cos(\u03b8)",
+      "\u03bcs = tan(\u03b8)",
+      "\u03bcs = cot(\u03b8)"
+    ],
+    "answer": 2,
+    "hint": "At the point of impending motion, the angle of inclination is equal to the angle of repose. \u03bcs = tan(\u03b8).",
+    "ncees": "Statics Section: Angle of Repose",
+    "imageUrl": "inclined_plane_friction.png"
+  },
+  {
+    "id": 17,
+    "category": "Statics",
+    "question": "Which of the following defines the parallel axis theorem for a moment of inertia?",
+    "options": [
+      "Ix = I_centroid + Ad^2",
+      "Ix = I_centroid - Ad^2",
+      "Ix = I_centroid + Ad",
+      "Ix = I_centroid * Ad^2"
+    ],
+    "answer": 0,
+    "hint": "The parallel axis theorem allows you to find the moment of inertia about any axis by adding the product of the area and the squared distance between the axes to the centroidal moment of inertia.",
+    "ncees": "Statics Section: Parallel Axis Theorem",
+    "imageUrl": ""
+  },
+  {
+    "id": 18,
+    "category": "Statics",
+    "question": "A force couple is applied to a beam. How does this couple affect the external reactions (support forces) of a statically determinate beam?",
+    "options": [
+      "It changes the vertical reactions.",
+      "It changes the horizontal reactions.",
+      "It changes the moment reactions.",
+      "It does not change the external reactions."
+    ],
+    "answer": 3,
+    "hint": "A pure couple consists of two equal and opposite forces. Their sum is zero (\u03a3F = 0), so they do not impact the reaction forces required for translation equilibrium.",
+    "ncees": "Statics Section: Moments and Couples",
+    "imageUrl": ""
+  }
 ]
