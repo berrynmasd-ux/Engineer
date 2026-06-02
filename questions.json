@@ -73,7 +73,7 @@
     "hint": "Identify zero-force members by looking for unloaded joints with two non-collinear members.",
     "ncees": "Statics Section: Truss Analysis",
     "imageUrl": "statics_truss_diagram_1.png"
-  }
+  },
   {
     "id": 6,
     "category": "Statics",
