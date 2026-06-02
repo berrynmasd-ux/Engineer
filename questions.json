@@ -178,8 +178,8 @@
     "hint": "For a planar truss, the number of unknowns (internal members + external reactions) must perfectly equal the number of equilibrium equations available (2 equations per joint: \u03a3Fx=0 and \u03a3Fy=0).",
     "ncees": "Statics Section: Determinate vs. Indeterminate Structures",
     "imageUrl": ""
-  }
-{
+  },
+  {
     "id": 13,
     "category": "Statics",
     "question": "A force vector is given by F = 3i + 4j + 12k (in Newtons). What is the magnitude of this force?",
