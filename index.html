@@ -3,28 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Civil FE Prep Platform</title>
+    <title>Civil FE/PE Simulator</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .perspective-1000 { perspective: 1000px; }
+        .preserve-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+        .fade-in { animation: fadeIn 0.3s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
 </head>
-<body class="bg-gray-100 h-screen flex flex-col items-center justify-center">
+<body class="bg-slate-50 text-slate-800 font-sans h-screen flex overflow-hidden">
 
-    <div id="loader" class="text-xl font-bold">Initializing System...</div>
+    <div id="loader" class="absolute inset-0 bg-slate-900 flex flex-col items-center justify-center z-[60] text-white">
+        <i class="fas fa-circle-notch fa-spin text-4xl mb-4 text-blue-500"></i>
+        <h2 class="text-xl font-bold">Loading Study Materials...</h2>
+        <p id="loaderText" class="text-slate-400 text-sm mt-2">Fetching questions.json and flash.json</p>
+    </div>
 
-    <div id="appContainer" class="hidden w-full max-w-4xl p-6 bg-white rounded shadow-lg">
-        <h1 class="text-2xl font-bold mb-4">FE Civil Prep Dashboard</h1>
-        <div id="status" class="mb-4 p-2 bg-blue-100 rounded">Logged in as: <span id="userDisplay"></span></div>
-        
-        <div class="grid grid-cols-2 gap-4">
-            <button onclick="startQuiz()" class="p-4 bg-blue-600 text-white rounded">Start Practice Exam</button>
-            <button onclick="startFlashcards()" class="p-4 bg-green-600 text-white rounded">Review Flashcards</button>
+    <div id="loginScreen" class="absolute inset-0 bg-slate-900 flex items-center justify-center z-50 hidden">
+        <div class="bg-white p-10 rounded-xl shadow-2xl w-96 text-center">
+            <div class="bg-blue-600 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                <i class="fas fa-hard-hat text-3xl"></i>
+            </div>
+            <h1 class="text-2xl font-bold mb-2">Civil FE Simulator</h1>
+            <p class="text-sm text-slate-500 mb-6">Enter your name to load your progress.</p>
+            <input type="text" id="username" placeholder="Your Name" class="w-full px-4 py-3 rounded border border-slate-300 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button onclick="login()" id="loginBtn" class="w-full bg-blue-600 text-white font-bold py-3 rounded hover:bg-blue-700 transition">Login</button>
         </div>
+    </div>
+
+    <div id="sidebar" class="w-64 bg-slate-900 text-slate-300 flex flex-col hidden">
+        <div class="p-6 text-white text-xl font-bold border-b border-slate-800 flex items-center gap-3">
+            <i class="fas fa-hard-hat text-blue-500"></i> FE Prep Tool
+        </div>
+        <div class="p-6">
+            <p class="text-xs uppercase tracking-wider text-slate-500 mb-2">Welcome back,</p>
+            <p id="sideUsername" class="text-lg font-semibold text-white"></p>
+        </div>
+        <nav class="flex-1 px-4 space-y-2">
+            <button onclick="showView('dashboard')" class="w-full flex items-center gap-3 px-4 py-3 rounded text-left hover:bg-slate-800 transition">
+                <i class="fas fa-chart-line w-5"></i> Dashboard
+            </button>
+            <button onclick="startPractice()" class="w-full flex items-center gap-3 px-4 py-3 rounded text-left hover:bg-slate-800 transition">
+                <i class="fas fa-pen-nib w-5"></i> Practice Exam
+            </button>
+            <button onclick="startFlashcards()" class="w-full flex items-center gap-3 px-4 py-3 rounded text-left hover:bg-slate-800 transition">
+                <i class="fas fa-layer-group w-5"></i> Flashcards
+            </button>
+        </nav>
+        <div class="p-4 border-t border-slate-800">
+            <button onclick="logout()" class="w-full flex items-center gap-3 px-4 py-2 rounded text-left text-red-400 hover:bg-slate-800 transition">
+                <i class="fas fa-sign-out-alt w-5"></i> Logout
+            </button>
+        </div>
+    </div>
+
+    <div id="mainContent" class="flex-1 flex flex-col overflow-y-auto hidden">
+        <header class="bg-white shadow-sm px-8 py-4 flex justify-between items-center">
+            <h2 id="viewTitle" class="text-xl font-bold text-slate-700">Dashboard</h2>
+            <div class="flex items-center gap-4 text-sm font-medium text-slate-500">
+                <div class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full border border-blue-200">Score: <span id="totalScore">0</span></div>
+            </div>
+        </header>
+
+        <main class="p-8 flex-1">
+            
+            <div id="view-dashboard" class="view-section">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <div class="text-slate-500 text-sm font-semibold mb-1">Total Questions Answered</div>
+                        <div id="dashTotalQs" class="text-3xl font-bold text-slate-800">0</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <div class="text-slate-500 text-sm font-semibold mb-1">Overall Accuracy</div>
+                        <div id="dashAccuracy" class="text-3xl font-bold text-green-600">0%</div>
+                    </div>
+                    <div class="bg-red-50 p-6 rounded-xl shadow-sm border border-red-100">
+                        <div class="text-red-500 text-sm font-semibold mb-1">Weakest Subject Priority</div>
+                        <div id="dashWeakest" class="text-xl font-bold text-red-700 mt-2">Evaluating...</div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex justify-between items-center">
+                    <div>
+                        <h3 class="font-bold text-slate-800">Account Management</h3>
+                        <p class="text-sm text-slate-500">Reset your progress and score tracking history.</p>
+                    </div>
+                    <button onclick="resetProgress()" class="bg-red-100 text-red-700 px-4 py-2 rounded font-bold hover:bg-red-200 transition">
+                        <i class="fas fa-trash-alt mr-2"></i> Reset Progress
+                    </button>
+                </div>
+            </div>
+
+            <div id="view-practice" class="view-section hidden max-w-3xl mx-auto">
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="bg-blue-600 text-white px-6 py-4 flex justify-between items-center">
+                        <span id="qCategory" class="font-bold text-sm tracking-wide uppercase bg-blue-800 px-3 py-1 rounded">Category</span>
+                        <span class="text-sm">Points: <span id="qPoints" class="font-bold">1.0</span></span>
+                    </div>
+                    <div class="p-8">
+                        <img id="qImg" src="" alt="Question Graphic" class="hidden mb-6 max-h-64 rounded border shadow-sm mx-auto">
+                        <p id="qText" class="text-lg font-medium text-slate-800 mb-8">Question text...</p>
+                        
+                        <div id="qOptions" class="space-y-3 mb-8"></div>
+
+                        <div id="hintBox" class="hidden bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 text-sm">
+                            <p class="font-bold text-yellow-800 mb-1"><i class="fas fa-book-open"></i> NCEES Reference: <span id="qNceesLocation" class="font-normal text-slate-700"></span></p>
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb"></i> Hint: <span id="qHintText" class="font-normal text-slate-700"></span></p>
+                        </div>
+
+                        <div class="flex justify-between items-center border-t border-slate-100 pt-6">
+                            <button id="btnHint" onclick="useHint()" class="text-yellow-600 font-semibold hover:text-yellow-700 transition">
+                                <i class="fas fa-question-circle"></i> Get Hint (-0.5 Pts)
+                            </button>
+                            <button onclick="submitAnswer()" class="bg-blue-600 text-white px-6 py-2 rounded font-bold hover:bg-blue-700 transition">Submit Answer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-flashcards" class="view-section hidden max-w-2xl mx-auto text-center mt-10">
+                <h3 class="text-2xl font-bold mb-2">Targeted Review</h3>
+                <p class="text-slate-500 mb-8">Subject: <span id="fcCategory" class="font-bold text-blue-600"></span></p>
+
+                <div class="perspective-1000 group w-full h-80 relative cursor-pointer" onclick="flipCard()">
+                    <div id="flashcardInner" class="w-full h-full transition-transform duration-500 preserve-3d absolute shadow-xl rounded-xl">
+                        <div class="backface-hidden absolute w-full h-full bg-white rounded-xl border border-slate-200 flex flex-col justify-center items-center p-8">
+                            <i class="fas fa-sync-alt text-slate-300 text-4xl mb-4"></i>
+                            <p id="fcQuestion" class="text-xl font-medium text-slate-800"></p>
+                        </div>
+                        <div class="backface-hidden absolute w-full h-full bg-blue-600 rounded-xl border border-blue-700 flex flex-col justify-center items-center p-8 text-white rotate-y-180">
+                            <p id="fcAnswer" class="text-lg font-medium mb-4"></p>
+                            <div class="bg-blue-800 text-blue-200 text-xs px-3 py-2 rounded mt-4">
+                                <i class="fas fa-book"></i> <span id="fcNcees"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8">
+                    <button onclick="nextFlashcard()" class="bg-slate-800 text-white px-6 py-3 rounded font-bold hover:bg-slate-700 transition w-full max-w-xs">Next Card <i class="fas fa-arrow-right ml-2"></i></button>
+                </div>
+            </div>
+
+        </main>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, get, set, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-        // Your specific Firebase Config
+        // Your specific Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyCO-n3z7eN3Xj1zmISJJxZvjyER9GBVnLc",
             authDomain: "sovereignhunt.firebaseapp.com",
@@ -37,39 +169,260 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-        
-        window.questions = [];
-        window.flashcards = [];
 
-        // 1. Data Loader - This ensures JSON is ready before UI loads
+        // Global State
+        window.qBank = [];
+        window.fBank = [];
+        window.user = null;
+        window.userData = null;
+        
+        // Quiz/Flashcard Variables
+        let currentPool = [];
+        let currentQ = null;
+        let selectedOpt = null;
+        let hintUsed = false;
+        let cardIdx = 0;
+        let isFlipped = false;
+
+        // 1. Data Loading Mechanism
         async function loadAppData() {
             try {
-                const [qRes, fRes] = await Promise.all([
-                    fetch('questions.json'),
-                    fetch('flashcards.json')
-                ]);
+                // Try to fetch external JSONs
+                const qRes = await fetch('questions.json');
+                const fRes = await fetch('flash.json');
                 
-                if (!qRes.ok || !fRes.ok) throw new Error("Could not load JSON files");
+                if(!qRes.ok || !fRes.ok) throw new Error("JSON files not found locally.");
                 
-                window.questions = await qRes.json();
-                window.flashcards = await fRes.json();
+                window.qBank = await qRes.json();
+                window.fBank = await fRes.json();
                 
+                // Hide loader, show login
                 document.getElementById('loader').classList.add('hidden');
-                document.getElementById('appContainer').classList.remove('hidden');
+                document.getElementById('loginScreen').classList.remove('hidden');
+
             } catch (err) {
-                document.getElementById('loader').innerHTML = 
-                    `<div class="text-red-600 p-4 border border-red-400">Error Loading Data: ${err.message}<br>Make sure you are running a local web server (e.g. VS Code Live Server)</div>`;
+                document.getElementById('loaderText').innerHTML = 
+                    `<span class="text-red-400 block mt-4">Error: ${err.message}</span>
+                     <span class="block text-xs mt-2">Make sure questions.json and flash.json exist and you are running a local web server.</span>`;
             }
         }
 
-        window.login = function() {
-            const name = document.getElementById('nameInput').value;
+        // 2. Auth & Progress Loading
+        window.login = async function() {
+            const name = document.getElementById('username').value.trim();
+            if(!name) return alert("Please enter your name.");
+            
+            document.getElementById('loginBtn').innerText = "Syncing with Database...";
             window.user = name;
-            // Add Firebase Logic Here...
-            console.log("Logged in and Data Loaded:", window.questions.length, "questions ready.");
+
+            const userRef = ref(db, 'users/' + name);
+            try {
+                const snapshot = await get(userRef);
+                if (snapshot.exists()) {
+                    window.userData = snapshot.val();
+                } else {
+                    // Initialize new user
+                    window.userData = { score: 0, questionsAnswered: 0, stats: {} };
+                    await set(userRef, window.userData);
+                }
+
+                document.getElementById('sideUsername').innerText = name;
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('sidebar').classList.remove('hidden');
+                document.getElementById('mainContent').classList.remove('hidden');
+                
+                updateDashboard();
+                showView('dashboard');
+            } catch (e) {
+                alert("Database connection failed. Check your Firebase rules and connection.");
+                document.getElementById('loginBtn').innerText = "Login";
+            }
         };
 
-        loadAppData();
+        window.logout = function() {
+            window.user = null; window.userData = null;
+            document.getElementById('username').value = "";
+            document.getElementById('loginBtn').innerText = "Login";
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('sidebar').classList.add('hidden');
+            document.getElementById('mainContent').classList.add('hidden');
+        };
+
+        window.resetProgress = async function() {
+            if(confirm("Are you sure you want to reset all your scores and weakness data?")) {
+                window.userData = { score: 0, questionsAnswered: 0, stats: {} };
+                await update(ref(db, 'users/' + window.user), window.userData);
+                updateDashboard();
+                alert("Progress completely reset.");
+            }
+        };
+
+        async function saveProgress() {
+            await update(ref(db, 'users/' + window.user), window.userData);
+            updateDashboard();
+        }
+
+        // 3. Adaptive Logic
+        function getWeakestSubject() {
+            let weakest = null; let lowest = 1.1;
+            if(!window.userData.stats) return null;
+
+            // Gather all subjects from the JSON
+            const allSubjects = [...new Set(window.qBank.map(q => q.category))];
+            
+            allSubjects.forEach(sub => {
+                if(!window.userData.stats[sub]) window.userData.stats[sub] = { correct: 0, total: 0 };
+                let st = window.userData.stats[sub];
+                let score = st.total === 0 ? 0 : (st.correct / st.total);
+                if(score < lowest) { lowest = score; weakest = sub; }
+            });
+            return weakest;
+        }
+
+        window.updateDashboard = function() {
+            document.getElementById('totalScore').innerText = window.userData.score;
+            document.getElementById('dashTotalQs').innerText = window.userData.questionsAnswered;
+            
+            let acc = window.userData.questionsAnswered === 0 ? 0 : 
+                     (window.userData.score / window.userData.questionsAnswered) * 100;
+            document.getElementById('dashAccuracy').innerText = acc.toFixed(1) + "%";
+            document.getElementById('dashWeakest').innerText = getWeakestSubject() || "Need more data";
+        };
+
+        // 4. Practice Engine
+        window.startPractice = function() {
+            showView('practice');
+            const weakest = getWeakestSubject();
+            let pool = [];
+            
+            // Give weight to the weaker subject
+            window.qBank.forEach(q => {
+                pool.push(q);
+                if(q.category === weakest) pool.push(q); // Add twice for weakness targeting
+            });
+            
+            currentPool = pool.sort(() => Math.random() - 0.5); // Shuffle
+            loadNextQuestion();
+        };
+
+        function loadNextQuestion() {
+            if(currentPool.length === 0) {
+                alert("Practice session finished!");
+                showView('dashboard');
+                return;
+            }
+            
+            currentQ = currentPool.pop();
+            selectedOpt = null;
+            hintUsed = false;
+            
+            document.getElementById('qPoints').innerText = "1.0";
+            document.getElementById('hintBox').classList.add('hidden');
+            document.getElementById('btnHint').classList.remove('hidden');
+            document.getElementById('qCategory').innerText = currentQ.category;
+            document.getElementById('qText').innerText = currentQ.question;
+            
+            // Image handling
+            const imgEl = document.getElementById('qImg');
+            if(currentQ.imageUrl) {
+                imgEl.src = currentQ.imageUrl;
+                imgEl.classList.remove('hidden');
+            } else {
+                imgEl.classList.add('hidden');
+            }
+
+            // Options
+            const optsDiv = document.getElementById('qOptions');
+            optsDiv.innerHTML = '';
+            currentQ.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded border border-slate-300 hover:bg-blue-50 text-slate-700 font-medium opt-btn";
+                btn.innerText = `${String.fromCharCode(65 + idx)}. ${opt}`;
+                btn.onclick = () => {
+                    selectedOpt = idx;
+                    document.querySelectorAll('.opt-btn').forEach(b => b.classList.replace('bg-blue-100', 'hover:bg-blue-50'));
+                    btn.classList.replace('hover:bg-blue-50', 'bg-blue-100');
+                };
+                optsDiv.appendChild(btn);
+            });
+        }
+
+        window.useHint = function() {
+            hintUsed = true;
+            document.getElementById('qPoints').innerText = "0.5";
+            document.getElementById('hintBox').classList.remove('hidden');
+            document.getElementById('btnHint').classList.add('hidden');
+            document.getElementById('qNceesLocation').innerText = currentQ.ncees;
+            document.getElementById('qHintText').innerText = currentQ.hint;
+        };
+
+        window.submitAnswer = async function() {
+            if(selectedOpt === null) return alert("Select an answer.");
+            
+            const isCorrect = (selectedOpt === currentQ.answer);
+            const points = isCorrect ? (hintUsed ? 0.5 : 1.0) : 0;
+            
+            // Update stats
+            window.userData.questionsAnswered++;
+            window.userData.score += points;
+            if(!window.userData.stats[currentQ.category]) window.userData.stats[currentQ.category] = { correct: 0, total: 0 };
+            window.userData.stats[currentQ.category].total++;
+            if(isCorrect) window.userData.stats[currentQ.category].correct++;
+
+            await saveProgress();
+            alert(isCorrect ? `Correct! +${points} pts` : `Incorrect. Answer was: ${String.fromCharCode(65 + currentQ.answer)}`);
+            loadNextQuestion();
+        };
+
+        // 5. Flashcard Engine
+        window.startFlashcards = function() {
+            showView('flashcards');
+            const weakest = getWeakestSubject();
+            
+            // Filter by weakness, or show all if deck is too small
+            let filtered = window.fBank.filter(f => f.category === weakest);
+            if(filtered.length < 3) filtered = window.fBank;
+            
+            document.getElementById('fcCategory').innerText = weakest || "All Subjects";
+            currentPool = filtered.sort(() => Math.random() - 0.5);
+            cardIdx = 0;
+            renderCard();
+        };
+
+        function renderCard() {
+            if(currentPool.length === 0) return;
+            isFlipped = false;
+            document.getElementById('flashcardInner').style.transform = 'rotateY(0deg)';
+            
+            const card = currentPool[cardIdx];
+            document.getElementById('fcQuestion').innerText = card.question;
+            document.getElementById('fcAnswer').innerText = card.answer;
+            document.getElementById('fcNcees').innerText = card.ncees;
+        }
+
+        window.flipCard = function() {
+            isFlipped = !isFlipped;
+            document.getElementById('flashcardInner').style.transform = isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)';
+        };
+
+        window.nextFlashcard = function() {
+            cardIdx = (cardIdx + 1) % currentPool.length;
+            isFlipped = false;
+            document.getElementById('flashcardInner').style.transform = 'rotateY(0deg)';
+            setTimeout(renderCard, 200); // Wait for flip animation
+        };
+
+        // Navigation
+        window.showView = function(viewName) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`view-${viewName}`).classList.remove('hidden');
+            const titles = { 'dashboard': 'Dashboard', 'practice': 'Practice Exam', 'flashcards': 'Concept Review' };
+            document.getElementById('viewTitle').innerText = titles[viewName];
+        };
+
+        // Initialize App
+        window.onload = loadAppData;
+
     </script>
 </body>
 </html>
