@@ -268,5 +268,59 @@
     "hint": "A pure couple consists of two equal and opposite forces. Their sum is zero (\u03a3F = 0), so they do not impact the reaction forces required for translation equilibrium.",
     "ncees": "Statics Section: Moments and Couples",
     "imageUrl": ""
+  },
+  {
+    "id": 13,
+    "category": "Fluid Mechanics",
+    "question": "What is the pressure at a depth of 10 meters in a static water tank? (Assume density = 1000 kg/m³, g = 9.81 m/s²)",
+    "options": ["9.81 kPa", "98.1 kPa", "100 kPa", "981 kPa"],
+    "answer": 1,
+    "hint": "Use the hydrostatic pressure formula: P = rho * g * h. Ensure units are in Pascals (N/m²).",
+    "ncees": "Fluid Mechanics: Fluid Statics"
+  },
+  {
+    "id": 14,
+    "category": "Fluid Mechanics",
+    "question": "In a pipe flow problem, what does the Reynolds number (Re) specifically determine?",
+    "options": ["The density of the fluid", "Whether flow is laminar or turbulent", "The head loss due to friction", "The velocity of the fluid"],
+    "answer": 1,
+    "hint": "Re = (density * velocity * diameter) / dynamic viscosity. It represents the ratio of inertial forces to viscous forces.",
+    "ncees": "Fluid Mechanics: Laminar and Turbulent Flow"
+  },
+  {
+    "id": 15,
+    "category": "Fluid Mechanics",
+    "question": "According to the Bernoulli equation for incompressible, frictionless flow, which energy terms are conserved along a streamline?",
+    "options": ["Pressure, kinetic, and potential energy", "Only kinetic energy", "Only potential energy", "Work and heat transfer"],
+    "answer": 0,
+    "hint": "Bernoulli's principle states: P/gamma + v^2/(2g) + z = constant. This represents conservation of mechanical energy.",
+    "ncees": "Fluid Mechanics: Energy Equation"
+  },
+  {
+    "id": 16,
+    "category": "Fluid Mechanics",
+    "question": "A horizontal pipe contracts from a diameter of 0.4 m to 0.2 m. If the velocity in the 0.4 m section is 2 m/s, what is the velocity in the 0.2 m section?",
+    "options": ["4 m/s", "6 m/s", "8 m/s", "16 m/s"],
+    "answer": 2,
+    "hint": "Use the continuity equation: A1 * V1 = A2 * V2. Since area is proportional to the square of the diameter, reducing the diameter by half increases velocity by four.",
+    "ncees": "Fluid Mechanics: Continuity Equation"
+  },
+  {
+    "id": 17,
+    "category": "Fluid Mechanics",
+    "question": "Which of the following describes the 'no-slip' condition in fluid dynamics?",
+    "options": ["Fluid velocity is zero at the pipe wall", "Fluid velocity is maximum at the pipe wall", "Fluid viscosity is zero at the pipe wall", "Pressure is atmospheric at the pipe wall"],
+    "answer": 0,
+    "hint": "In viscous flow, the fluid particles directly in contact with a stationary solid surface have zero relative velocity.",
+    "ncees": "Fluid Mechanics: Fluid Properties"
+  },
+  {
+    "id": 18,
+    "category": "Fluid Mechanics",
+    "question": "For a circular pipe flowing full, what is the hydraulic radius (Rh)?",
+    "options": ["D / 2", "D / 4", "D / 6", "D / 8"],
+    "answer": 1,
+    "hint": "Rh = Area / Wetted Perimeter. A = (pi * D^2)/4, P = pi * D. Rh = (pi*D^2/4) / (pi*D) = D/4.",
+    "ncees": "Fluid Mechanics: Duct and Pipe Flow"
   }
 ]
