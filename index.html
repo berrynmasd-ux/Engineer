@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Civil FE Prep Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 h-screen flex flex-col items-center justify-center">
+
+    <div id="loader" class="text-xl font-bold">Initializing System...</div>
+
+    <div id="appContainer" class="hidden w-full max-w-4xl p-6 bg-white rounded shadow-lg">
+        <h1 class="text-2xl font-bold mb-4">FE Civil Prep Dashboard</h1>
+        <div id="status" class="mb-4 p-2 bg-blue-100 rounded">Logged in as: <span id="userDisplay"></span></div>
+        
+        <div class="grid grid-cols-2 gap-4">
+            <button onclick="startQuiz()" class="p-4 bg-blue-600 text-white rounded">Start Practice Exam</button>
+            <button onclick="startFlashcards()" class="p-4 bg-green-600 text-white rounded">Review Flashcards</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        // Your specific Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyCO-n3z7eN3Xj1zmISJJxZvjyER9GBVnLc",
+            authDomain: "sovereignhunt.firebaseapp.com",
+            databaseURL: "https://sovereignhunt-default-rtdb.firebaseio.com",
+            projectId: "sovereignhunt",
+            storageBucket: "sovereignhunt.firebasestorage.app",
+            messagingSenderId: "657296200169",
+            appId: "1:657296200169:web:22a0f9364344e682083b78"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        
+        window.questions = [];
+        window.flashcards = [];
+
+        // 1. Data Loader - This ensures JSON is ready before UI loads
+        async function loadAppData() {
+            try {
+                const [qRes, fRes] = await Promise.all([
+                    fetch('questions.json'),
+                    fetch('flashcards.json')
+                ]);
+                
+                if (!qRes.ok || !fRes.ok) throw new Error("Could not load JSON files");
+                
+                window.questions = await qRes.json();
+                window.flashcards = await fRes.json();
+                
+                document.getElementById('loader').classList.add('hidden');
+                document.getElementById('appContainer').classList.remove('hidden');
+            } catch (err) {
+                document.getElementById('loader').innerHTML = 
+                    `<div class="text-red-600 p-4 border border-red-400">Error Loading Data: ${err.message}<br>Make sure you are running a local web server (e.g. VS Code Live Server)</div>`;
+            }
+        }
+
+        window.login = function() {
+            const name = document.getElementById('nameInput').value;
+            window.user = name;
+            // Add Firebase Logic Here...
+            console.log("Logged in and Data Loaded:", window.questions.length, "questions ready.");
+        };
+
+        loadAppData();
+    </script>
+</body>
+</html>
