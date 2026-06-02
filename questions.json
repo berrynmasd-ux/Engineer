@@ -1,17 +1,184 @@
 [
   {
     "id": 1,
-    "category": "Statics",
-    "question": "In a statically determinate truss, which condition typically identifies a zero-force member?",
+    "category": "Ethics and Professional Practice",
+    "question": "Evaluate four proposed firm advertisements. Concept I: Claims superiority over competitors. Concept II: Offers contingency-based design fees. Concept III: Emphasizes lowest price over quality of service. Concept IV: Features a background picture of the Golden Gate Bridge, a project the firm did not work on. Which ads are acceptable under professional ethics?",
     "options": [
-      "Two non-collinear members forming a joint with no external load applied",
-      "Three collinear members meeting at a support",
-      "A member carrying a compression load greater than its buckling capacity",
-      "A vertical member at the center of a Pratt truss"
+      "I and II only",
+      "III only",
+      "IV only",
+      "None of the ads are acceptable"
+    ],
+    "answer": 3,
+    "hint": "Concepts I and II are explicitly prohibited. Placing emphasis on price demeans the profession, and showing a project you didn't design is a misrepresentation.",
+    "ncees": "Ethics Section: Rules of Professional Conduct",
+    "imageUrl": ""
+  },
+  {
+    "id": 2,
+    "category": "Ethics and Professional Practice",
+    "question": "In states where an engineer is licensed generically as a 'Professional Engineer' rather than in a specific discipline, what defines the legal scope of the engineering work they are permitted to perform?",
+    "options": [
+      "Their specific college degree major",
+      "The discipline they tested in for the PE exam",
+      "The scope is limited only by their individual competence",
+      "The state engineering board must pre-approve cross-discipline work"
+    ],
+    "answer": 2,
+    "hint": "Generic licensure allows flexibility; the scope of their work is limited only by their competence. An engineer may 'touch upon' another discipline if the work is incidental.",
+    "ncees": "Ethics Section: Licensee Obligations",
+    "imageUrl": ""
+  },
+  {
+    "id": 3,
+    "category": "Ethics and Professional Practice",
+    "question": "During the bidding process, an engineering firm is asked by a contractor to clarify certain bid documents. If the clarification involves proprietary information belonging to the developer, what is the appropriate action?",
+    "options": [
+      "Provide the clarification to all bidders equally to maintain fairness",
+      "Refuse to clarify any documents until the bid is awarded",
+      "Only reveal information that has been publicly disseminated or approved for release with the client's consent",
+      "Submit the clarification directly to the state board"
+    ],
+    "answer": 2,
+    "hint": "Engineers must protect proprietary client information and only reveal information that has already been publicly disseminated or approved for release with the consent of the client.",
+    "ncees": "Ethics Section: Rules of Professional Conduct",
+    "imageUrl": ""
+  },
+  {
+    "id": 4,
+    "category": "Mathematics",
+    "question": "Find the straight-line distance between the points (2, 3) and (5, 7) in a standard Cartesian coordinate system.",
+    "options": [
+      "3.0",
+      "4.0",
+      "5.0",
+      "7.0"
+    ],
+    "answer": 2,
+    "hint": "Use the analytic geometry distance formula: d = sqrt((x2 - x1)^2 + (y2 - y1)^2).",
+    "ncees": "Mathematics Section: Analytic Geometry",
+    "imageUrl": ""
+  },
+  {
+    "id": 5,
+    "category": "Statics",
+    "question": "Determine the force in member AB of the truss shown in the attached diagram. Assume all external loads are applied at the joints.",
+    "options": [
+      "0 kN",
+      "10 kN (Tension)",
+      "15 kN (Compression)",
+      "20 kN (Tension)"
     ],
     "answer": 0,
-    "hint": "Summing forces at an unloaded joint with two non-collinear members requires both to be zero.",
+    "hint": "Identify zero-force members by looking for unloaded joints with two non-collinear members.",
     "ncees": "Statics Section: Truss Analysis",
-    "imageUrl": "" 
+    "imageUrl": "statics_truss_diagram_1.png"
+  }
+]
+[
+  {
+    "id": 6,
+    "category": "Statics",
+    "question": "Two forces, F1 = 300 N acting along the positive x-axis and F2 = 400 N acting along the positive y-axis, are applied to a single point. What is the magnitude of the resultant force?",
+    "options": [
+      "100 N",
+      "500 N",
+      "700 N",
+      "1200 N"
+    ],
+    "answer": 1,
+    "hint": "Use the Pythagorean theorem for orthogonal vectors: R = sqrt(Fx^2 + Fy^2).",
+    "ncees": "Statics Section: Systems of Forces",
+    "imageUrl": ""
+  },
+  {
+    "id": 7,
+    "category": "Statics",
+    "question": "A 50 lb force is applied at the end of a 2 ft wrench. The force is applied at an angle of 30 degrees relative to the handle of the wrench. What is the magnitude of the moment generated about the bolt?",
+    "options": [
+      "50 lb-ft",
+      "86.6 lb-ft",
+      "100 lb-ft",
+      "0 lb-ft"
+    ],
+    "answer": 0,
+    "hint": "The moment is the perpendicular component of the force times the distance: M = F * d * sin(\u03b8). M = 50 * 2 * sin(30\u00b0).",
+    "ncees": "Statics Section: Moments (Couples)",
+    "imageUrl": ""
+  },
+  {
+    "id": 8,
+    "category": "Statics",
+    "question": "In a pin-jointed truss, three members meet at an unloaded joint. Two of the members are perfectly collinear. What must be true about the internal force in the third, non-collinear member?",
+    "options": [
+      "It is equal to the average of the forces in the collinear members.",
+      "It is a zero-force member.",
+      "It is in pure tension.",
+      "It is in pure compression."
+    ],
+    "answer": 1,
+    "hint": "If three members meet at an unloaded joint and two are collinear, the third member must be a zero-force member to satisfy equilibrium perpendicular to the collinear axis (\u03a3F=0).",
+    "ncees": "Statics Section: Truss Analysis",
+    "imageUrl": ""
+  },
+  {
+    "id": 9,
+    "category": "Statics",
+    "question": "A 100 kg concrete block rests on a horizontal plane. The coefficient of static friction (\u03bcs) between the block and the plane is 0.3. What is the minimum horizontal force required to initiate motion? (Assume g = 9.81 m/s\u00b2)",
+    "options": [
+      "30 N",
+      "98 N",
+      "294 N",
+      "981 N"
+    ],
+    "answer": 2,
+    "hint": "The frictional force is F = \u03bcs * N. The normal force N is equal to the weight: mg = 100 * 9.81 = 981 N. Therefore, F = 0.3 * 981.",
+    "ncees": "Statics Section: Friction",
+    "imageUrl": ""
+  },
+  {
+    "id": 10,
+    "category": "Statics",
+    "question": "What is the y-coordinate of the centroid (y\u0305) of a right triangle with base 'b' and height 'h', measured vertically from its base?",
+    "options": [
+      "h / 2",
+      "h / 3",
+      "2h / 3",
+      "h / 4"
+    ],
+    "answer": 1,
+    "hint": "For a right triangle, the centroid is always located one-third of the distance from the wide base and one-third from the vertical height.",
+    "ncees": "Statics Section: Centroids of Areas",
+    "imageUrl": ""
+  },
+  {
+    "id": 11,
+    "category": "Statics",
+    "question": "What is the area moment of inertia (Ix) of a solid rectangular cross-section with width 'b' and height 'h' evaluated about its centroidal x-axis (parallel to the base)?",
+    "options": [
+      "(b * h\u00b3) / 3",
+      "(b * h\u00b3) / 12",
+      "(b\u00b3 * h) / 12",
+      "(b * h\u00b2) / 6"
+    ],
+    "answer": 1,
+    "hint": "The centroidal moment of inertia for a rectangle is base times height cubed, divided by 12. If evaluated about the very bottom edge, it would be divided by 3.",
+    "ncees": "Statics Section: Area Moment of Inertia",
+    "imageUrl": ""
+  },
+  {
+    "id": 12,
+    "category": "Statics",
+    "question": "A 2D planar truss has 'm' members, 'r' reaction components, and 'j' joints. Which of the following equations represents the necessary condition for the truss to be statically determinate?",
+    "options": [
+      "m + r = 2j",
+      "m + r = 3j",
+      "2m + r = j",
+      "m = 2j + r"
+    ],
+    "answer": 0,
+    "hint": "For a planar truss, the number of unknowns (internal members + external reactions) must perfectly equal the number of equilibrium equations available (2 equations per joint: \u03a3Fx=0 and \u03a3Fy=0).",
+    "ncees": "Statics Section: Determinate vs. Indeterminate Structures",
+    "imageUrl": ""
   }
 ]
