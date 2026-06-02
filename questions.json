@@ -2,10 +2,16 @@
   {
     "id": 1,
     "category": "Statics",
-    "question": "What is the force in member AB?",
-    "options": ["10kN", "20kN", "5kN", "0kN"],
-    "answer": 1,
-    "hint": "Use method of joints.",
-    "imageUrl": "truss.png"
+    "question": "In a statically determinate truss, which condition typically identifies a zero-force member?",
+    "options": [
+      "Two non-collinear members forming a joint with no external load applied",
+      "Three collinear members meeting at a support",
+      "A member carrying a compression load greater than its buckling capacity",
+      "A vertical member at the center of a Pratt truss"
+    ],
+    "answer": 0,
+    "hint": "Summing forces at an unloaded joint with two non-collinear members requires both to be zero.",
+    "ncees": "Statics Section: Truss Analysis",
+    "imageUrl": "" 
   }
 ]
