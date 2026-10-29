@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>SCDOT S-371-26 Sub-Consultant Strategy, Roadmap & Interactive ROI Deck</title>
 <style>
   :root {
@@ -22,8 +22,10 @@
     color: var(--text-main);
     overflow: hidden;
     height: 100vh;
+    height: 100dvh;
     display: flex;
     flex-direction: column;
+    -webkit-text-size-adjust: 100%;
   }
   .deck-container {
     flex: 1;
@@ -33,15 +35,16 @@
   .slide {
     position: absolute;
     inset: 0;
-    padding: 32px 52px 76px 52px;
+    padding: 20px 24px 76px 24px;
     opacity: 0;
     pointer-events: none;
-    transform: translateX(40px);
-    transition: all 0.35s ease;
+    transform: translateX(30px);
+    transition: all 0.3s ease;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
   }
   .slide.active {
     opacity: 1;
@@ -50,36 +53,50 @@
   }
   .slide-header {
     border-bottom: 2px solid var(--card-border);
-    padding-bottom: 10px;
+    padding-bottom: 8px;
     display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
+    flex-direction: column;
+    gap: 6px;
+  }
+  @media(min-width: 768px) {
+    .slide { padding: 32px 52px 76px 52px; gap: 16px; }
+    .slide-header { flex-direction: row; justify-content: space-between; align-items: flex-end; }
   }
   .badge {
     background: rgba(56, 189, 248, 0.15);
     color: var(--accent-blue);
     border: 1px solid var(--accent-blue);
-    padding: 4px 12px;
+    padding: 3px 10px;
     border-radius: 999px;
-    font-size: 0.78rem;
+    font-size: 0.72rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.05em;
+    display: inline-block;
   }
-  h1 { font-size: 2rem; color: #fff; line-height: 1.2; margin-top: 4px; }
-  h2 { font-size: 1.2rem; color: var(--accent-blue); margin-bottom: 8px; }
-  h3 { font-size: 1rem; color: var(--accent-gold); margin-bottom: 6px; }
-  p, li { font-size: 0.92rem; line-height: 1.48; color: var(--text-muted); }
-  ul { padding-left: 20px; display: flex; flex-direction: column; gap: 5px; }
+  h1 { font-size: 1.5rem; color: #fff; line-height: 1.2; margin-top: 2px; }
+  @media(min-width: 768px) { h1 { font-size: 2rem; } }
+  h2 { font-size: 1.1rem; color: var(--accent-blue); margin-bottom: 6px; }
+  h3 { font-size: 0.95rem; color: var(--accent-gold); margin-bottom: 4px; }
+  p, li { font-size: 0.88rem; line-height: 1.45; color: var(--text-muted); }
+  @media(min-width: 768px) { p, li { font-size: 0.92rem; } }
+  ul { padding-left: 18px; display: flex; flex-direction: column; gap: 4px; }
   strong { color: #fff; }
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  
+  .grid-2 { display: flex; flex-direction: column; gap: 12px; }
+  .grid-3 { display: flex; flex-direction: column; gap: 12px; }
+  .grid-4 { display: flex; flex-direction: column; gap: 10px; }
+  @media(min-width: 768px) {
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  }
+
   .card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
     border-radius: 10px;
-    padding: 15px 18px;
+    padding: 14px 16px;
   }
   .stat-card {
     background: linear-gradient(145deg, #1e293b, #0f172a);
@@ -88,22 +105,31 @@
     border-radius: 8px;
   }
   .stat-num {
-    font-size: 1.7rem;
+    font-size: 1.5rem;
     font-weight: 800;
     color: var(--accent-gold);
   }
+  @media(min-width: 768px) { .stat-num { font-size: 1.7rem; } }
   .stat-num.green { color: var(--accent-green); }
   .stat-num.blue { color: var(--accent-blue); }
+
+  .table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+    border: 1px solid var(--card-border);
+  }
   table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.84rem;
+    font-size: 0.8rem;
     background: var(--card-bg);
-    border-radius: 8px;
-    overflow: hidden;
+    white-space: nowrap;
   }
+  @media(min-width: 768px) { table { font-size: 0.84rem; white-space: normal; } }
   th, td {
-    padding: 8px 11px;
+    padding: 8px 10px;
     text-align: left;
     border-bottom: 1px solid var(--card-border);
   }
@@ -112,10 +138,11 @@
     color: var(--accent-blue);
     font-weight: 700;
     text-transform: uppercase;
-    font-size: 0.74rem;
+    font-size: 0.7rem;
   }
   tr.winner td { background: rgba(16, 185, 129, 0.08); }
   tr.highlight td { background: rgba(245, 158, 11, 0.14); font-weight: 600; }
+
   .slider-group {
     display: flex;
     flex-direction: column;
@@ -125,50 +152,50 @@
   .slider-label {
     display: flex;
     justify-content: space-between;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     color: var(--text-muted);
   }
   input[type="range"] {
     width: 100%;
     accent-color: var(--accent-blue);
     cursor: pointer;
+    height: 28px;
   }
+
   .nav-bar {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 58px;
+    height: 56px;
     background: #0b1120;
     border-top: 1px solid var(--card-border);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 32px;
+    padding: 0 16px;
     z-index: 100;
   }
+  @media(min-width: 768px) { .nav-bar { padding: 0 32px; } }
   .btn {
     background: var(--accent-blue);
     color: #0f172a;
     border: none;
-    padding: 8px 18px;
+    padding: 8px 14px;
     border-radius: 6px;
     font-weight: 700;
     cursor: pointer;
-    font-size: 0.88rem;
+    font-size: 0.82rem;
   }
+  @media(min-width: 768px) { .btn { padding: 8px 18px; font-size: 0.88rem; } }
   .btn:disabled { opacity: 0.35; cursor: not-allowed; }
-  .progress-dots { display: flex; gap: 8px; }
+  .progress-dots { display: flex; gap: 6px; }
   .dot {
-    width: 10px; height: 10px; border-radius: 50%;
+    width: 8px; height: 8px; border-radius: 50%;
     background: var(--card-border); cursor: pointer;
   }
+  @media(min-width: 768px) { .dot { width: 10px; height: 10px; gap: 8px; } }
   .dot.active { background: var(--accent-gold); transform: scale(1.25); }
-  @media print {
-    body { overflow: visible; height: auto; }
-    .slide { position: relative; opacity: 1; transform: none; pointer-events: auto; page-break-after: always; }
-    .nav-bar { display: none; }
-  }
 </style>
 </head>
 <body>
@@ -182,7 +209,7 @@
         <span class="badge">Slide 1 • Executive Summary • Solicitation S-371-26</span>
         <h1>SCDOT Statewide Bridge Inspection & Evaluation</h1>
       </div>
-      <div style="text-align:right; color:var(--accent-gold); font-weight:700;">
+      <div style="color:var(--accent-gold); font-weight:700; font-size:0.85rem;">
         2-Person Sub-Consultant Attack Plan & ROI Model
       </div>
     </div>
@@ -190,19 +217,19 @@
     <div class="grid-4">
       <div class="stat-card">
         <div class="stat-num">Up to 70%</div>
-        <p><strong>Subcontractable Work:</strong> Prime only has to self-perform 30% of contract (RFP Page 28).</p>
+        <p><strong>Subcontractable Work:</strong> Prime only has to self-perform 30% of contract (RFP Page 28)[span_0](start_span)[span_0](end_span).</p>
       </div>
       <div class="stat-card">
         <div class="stat-num blue">40% Subbed</div>
-        <p><strong>Proven Winner Split:</strong> AI Engineers won #5 Award Slot while delegating 40% to subs.</p>
+        <p><strong>Proven Winner Split:</strong> AI Engineers won #5 Award Slot while delegating 40% to subs[span_1](start_span)[span_1](end_span)[span_2](start_span)[span_2](end_span)[span_3](start_span)[span_3](end_span).</p>
       </div>
       <div class="stat-card">
         <div class="stat-num green">0% Conflict</div>
-        <p><strong>Addendum 3 Rule:</strong> Sub-consultants are NOT precluded from bidding remedial repair work.</p>
+        <p><strong>Addendum 3 Rule:</strong> Sub-consultants are NOT precluded from bidding remedial repair work[span_4](start_span)[span_4](end_span).</p>
       </div>
       <div class="stat-card">
         <div class="stat-num">2-Person Crew</div>
-        <p><strong>Built for Lean Entry:</strong> RFP Page 15 explicitly defines 2-person teams for field testing.</p>
+        <p><strong>Built for Lean Entry:</strong> RFP Page 15 explicitly defines 2-person teams for field testing[span_5](start_span)[span_5](end_span).</p>
       </div>
     </div>
 
@@ -210,17 +237,17 @@
       <div class="card">
         <h2>Why Prime Firms Need Sub-Consultants Right Now</h2>
         <ul>
-          <li><strong>Massive Monthly Quotas (Addendum 2):</strong> Each of the 5 winning teams must be able to execute <strong>350 routine inspections/mo</strong>, <strong>30 underwater inspections/mo</strong>, <strong>200 policy load ratings/mo</strong>, and <strong>800 emergency storm inspections/mo</strong>.</li>
-          <li><strong>45% Staffing Grade Weight:</strong> Proposals are graded 45% on Staff Qualifications & Availability, 40% on Project Approach, and 15% on Past Performance (Cost is strictly prohibited).</li>
-          <li><strong>Why Mid-Sized Primes Lost:</strong> Evaluators penalized firms like KCI (60.0) and KCA (65.0) specifically for lacking enough field teams and sub-consultant support.</li>
+          <li><strong>Massive Monthly Quotas (Addendum 2):</strong> Each of the 5 winning teams must execute <strong>350 routine inspections/mo</strong>, <strong>30 underwater inspections/mo</strong>, <strong>200 policy load ratings/mo</strong>, and <strong>800 emergency storm inspections/mo</strong>[span_6](start_span)[span_6](end_span)[span_7](start_span)[span_7](end_span)[span_8](start_span)[span_8](end_span).</li>
+          <li><strong>45% Staffing Grade Weight:</strong> Proposals are graded 45% on Staff Qualifications & Availability, 40% on Project Approach, and 15% on Past Performance[span_9](start_span)[span_9](end_span)[span_10](start_span)[span_10](end_span).</li>
+          <li><strong>Why Mid-Sized Primes Lost:</strong> Evaluators penalized KCI (60.0) and KCA (65.0) for lacking enough field teams and sub-consultant support[span_11](start_span)[span_11](end_span)[span_12](start_span)[span_12](end_span)[span_13](start_span)[span_13](end_span)[span_14](start_span)[span_14](end_span).</li>
         </ul>
       </div>
       <div class="card">
         <h2>Why We Don't Have to Wait 2 Full Years</h2>
         <ul>
-          <li><strong>Immediate Contract Modifications (Page 6):</strong> The 800/month storm & winter emergency inspections are negotiated as contract modifications outside the base routine schedule.</li>
-          <li><strong>25% Team Substitution Allowance (Page 27):</strong> Primes can adjust or add sub-consultant capacity up to 25% of the team with written SCDOT approval.</li>
-          <li><strong>The Two-Phase Vision:</strong> Capture overflow Site Assessments, NDT runs, and Storm Packages now while locking in a formal Teaming Agreement for the next RFP cycle to build our 15% Past Performance score.</li>
+          <li><strong>Immediate Contract Modifications (Page 6):</strong> 800/month storm & winter emergency inspections are negotiated as contract modifications[span_15](start_span)[span_15](end_span).</li>
+          <li><strong>25% Team Substitution (Page 27):</strong> Primes can add sub-consultant capacity up to 25% of the team with written SCDOT approval[span_16](start_span)[span_16](end_span).</li>
+          <li><strong>The Two-Phase Vision:</strong> Capture overflow Site Assessments, NDT runs, and Storm Packages now while locking in a Teaming Agreement for the next RFP cycle[span_17](start_span)[span_17](end_span)[span_18](start_span)[span_18](end_span)[span_19](start_span)[span_19](end_span)[span_20](start_span)[span_20](end_span)[span_21](start_span)[span_21](end_span).</li>
         </ul>
       </div>
     </div>
@@ -230,117 +257,119 @@
   <section class="slide">
     <div class="slide-header">
       <div>
-        <span class="badge">Slide 2 • May 18, 2026 Master Scoresheet Intelligence</span>
+        <span class="badge">Slide 2 • May 18, 2026 Master Scoresheet</span>
         <h1>Competitive Landscape & Target Prime Partners</h1>
       </div>
-      <div style="text-align:right; color:var(--text-muted);">10 Responders • Top 5 Selected for Award</div>
+      <div style="color:var(--text-muted); font-size:0.8rem;">10 Responders • Top 5 Awarded[span_22](start_span)[span_22](end_span)[span_23](start_span)[span_23](end_span)[span_24](start_span)[span_24](end_span)</div>
     </div>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Rank</th>
-          <th>Consulting Firm</th>
-          <th>Total Score</th>
-          <th>Crit 1 (45% Staff)</th>
-          <th>Crit 2 (40% Approach)</th>
-          <th>Crit 3 (15% Past Perf)</th>
-          <th>Evaluator Scorecard Intelligence & Teaming Angle</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="winner">
-          <td><strong>#1</strong></td>
-          <td><strong>Michael Baker International</strong></td>
-          <td><strong>90.0</strong></td>
-          <td>41.40</td>
-          <td>34.80</td>
-          <td>13.50</td>
-          <td>Incumbent QA lead; praised for deep sub-consultant bench across every task.</td>
-        </tr>
-        <tr class="winner">
-          <td><strong>#2</strong></td>
-          <td><strong>Strinteg Corporation</strong></td>
-          <td><strong>88.0</strong></td>
-          <td>34.80</td>
-          <td>40.50</td>
-          <td>12.90</td>
-          <td>Uses dedicated Sub-Consultant Manager for field visits; strong storm mobilization plan.</td>
-        </tr>
-        <tr class="winner">
-          <td><strong>#3</strong></td>
-          <td><strong>GFT Infrastructure, Inc.</strong></td>
-          <td><strong>87.0</strong></td>
-          <td>34.80</td>
-          <td>39.15</td>
-          <td>12.60</td>
-          <td>38 Team Leads + large pool of subs, but Evaluators 3 & 5 flagged staff availability/workload.</td>
-        </tr>
-        <tr class="winner">
-          <td><strong>#4</strong></td>
-          <td><strong>HDR Engineering, Inc.</strong></td>
-          <td><strong>87.0</strong></td>
-          <td>39.60</td>
-          <td>34.00</td>
-          <td>13.05</td>
-          <td>Authors of SCDOT BIGD/LRGD; docked on Criteria 2 for lacking sub-consultant coordination plan.</td>
-        </tr>
-        <tr class="winner">
-          <td><strong>#5</strong></td>
-          <td><strong>AI Engineers, Inc.</strong></td>
-          <td><strong>72.0</strong></td>
-          <td>31.50</td>
-          <td>29.20</td>
-          <td>11.55</td>
-          <td><strong>Won #5 contract slot while delegating 40% of workload to sub-consultants (Eval #2).</strong></td>
-        </tr>
-        <tr>
-          <td>#6</td>
-          <td>CONSOR Engineers, LLC</td>
-          <td>67.0</td>
-          <td>28.40</td>
-          <td>31.95</td>
-          <td>6.45</td>
-          <td>Subbed out NDT, Load Ratings & Scour, but lost due to prior contract termination (4.23/10 CPE).</td>
-        </tr>
-        <tr>
-          <td>#7</td>
-          <td>Kisinger Campo (KCA)</td>
-          <td>65.0</td>
-          <td>26.64</td>
-          <td>28.35</td>
-          <td>10.50</td>
-          <td>Penalized for small internal pool of team leaders and referencing obsolete BIO software.</td>
-        </tr>
-        <tr>
-          <td>#8</td>
-          <td>Collins Engineers, Inc.</td>
-          <td>64.0</td>
-          <td>31.50</td>
-          <td>22.40</td>
-          <td>10.50</td>
-          <td>31 inspection teams with multiple subs; lost points on Criteria 2 risk/schedule narrative.</td>
-        </tr>
-        <tr>
-          <td>#9</td>
-          <td>KCI Technologies, Inc.</td>
-          <td>60.0</td>
-          <td>24.80</td>
-          <td>27.18</td>
-          <td>8.10</td>
-          <td>Only 10 teams; Eval #4 noted KCI lacked personnel to prime and had little sub involvement.</td>
-        </tr>
-        <tr>
-          <td>#10</td>
-          <td>WSP USA Inc.</td>
-          <td>54.0</td>
-          <td>20.40</td>
-          <td>25.20</td>
-          <td>8.10</td>
-          <td>Recycled old proposal with wrong PM name and non-BrM tracking software.</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Consulting Firm</th>
+            <th>Score</th>
+            <th>Crit 1 (45%)</th>
+            <th>Crit 2 (40%)</th>
+            <th>Crit 3 (15%)</th>
+            <th>Evaluator Intelligence & Teaming Angle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="winner">
+            <td><strong>#1</strong></td>
+            <td><strong>Michael Baker International</strong>[span_25](start_span)[span_25](end_span)[span_26](start_span)[span_26](end_span)</td>
+            <td><strong>90.0</strong>[span_27](start_span)[span_27](end_span)</td>
+            <td>41.40</td>
+            <td>34.80</td>
+            <td>13.50</td>
+            <td>Incumbent QA lead; praised for deep sub-consultant bench across all tasks[span_28](start_span)[span_28](end_span)[span_29](start_span)[span_29](end_span).</td>
+          </tr>
+          <tr class="winner">
+            <td><strong>#2</strong></td>
+            <td><strong>Strinteg Corporation</strong>[span_30](start_span)[span_30](end_span)[span_31](start_span)[span_31](end_span)</td>
+            <td><strong>88.0</strong>[span_32](start_span)[span_32](end_span)</td>
+            <td>34.80</td>
+            <td>40.50</td>
+            <td>12.90</td>
+            <td>Uses dedicated Sub-Consultant Manager for field visits; strong storm plan[span_33](start_span)[span_33](end_span)[span_34](start_span)[span_34](end_span)[span_35](start_span)[span_35](end_span).</td>
+          </tr>
+          <tr class="winner">
+            <td><strong>#3</strong></td>
+            <td><strong>GFT Infrastructure, Inc.</strong>[span_36](start_span)[span_36](end_span)[span_37](start_span)[span_37](end_span)</td>
+            <td><strong>87.0</strong>[span_38](start_span)[span_38](end_span)</td>
+            <td>34.80</td>
+            <td>39.15</td>
+            <td>12.60</td>
+            <td>38 Team Leads + large sub pool; Evaluators 3 & 5 flagged staff workload[span_39](start_span)[span_39](end_span)[span_40](start_span)[span_40](end_span)[span_41](start_span)[span_41](end_span).</td>
+          </tr>
+          <tr class="winner">
+            <td><strong>#4</strong></td>
+            <td><strong>HDR Engineering, Inc.</strong>[span_42](start_span)[span_42](end_span)[span_43](start_span)[span_43](end_span)</td>
+            <td><strong>87.0</strong>[span_44](start_span)[span_44](end_span)</td>
+            <td>39.60</td>
+            <td>34.00</td>
+            <td>13.05</td>
+            <td>Authors of SCDOT BIGD/LRGD; docked on Crit 2 for lacking sub-consultant coordination[span_45](start_span)[span_45](end_span)[span_46](start_span)[span_46](end_span).</td>
+          </tr>
+          <tr class="winner">
+            <td><strong>#5</strong></td>
+            <td><strong>AI Engineers, Inc.</strong>[span_47](start_span)[span_47](end_span)[span_48](start_span)[span_48](end_span)</td>
+            <td><strong>72.0</strong>[span_49](start_span)[span_49](end_span)</td>
+            <td>31.50</td>
+            <td>29.20</td>
+            <td>11.55</td>
+            <td><strong>Won #5 slot while delegating 40% of workload to sub-consultants (Eval #2)[span_50](start_span)[span_50](end_span)[span_51](start_span)[span_51](end_span)[span_52](start_span)[span_52](end_span).</strong></td>
+          </tr>
+          <tr>
+            <td>#6</td>
+            <td>CONSOR Engineers, LLC[span_53](start_span)[span_53](end_span)</td>
+            <td>67.0</td>
+            <td>28.40</td>
+            <td>31.95</td>
+            <td>6.45</td>
+            <td>Subbed out NDT/Load Ratings, but lost due to prior contract termination (4.23 CPE)[span_54](start_span)[span_54](end_span)[span_55](start_span)[span_55](end_span).</td>
+          </tr>
+          <tr>
+            <td>#7</td>
+            <td>Kisinger Campo (KCA)[span_56](start_span)[span_56](end_span)</td>
+            <td>65.0</td>
+            <td>26.64</td>
+            <td>28.35</td>
+            <td>10.50</td>
+            <td>Penalized for small internal pool of team leaders & obsolete BIO software[span_57](start_span)[span_57](end_span)[span_58](start_span)[span_58](end_span)[span_59](start_span)[span_59](end_span).</td>
+          </tr>
+          <tr>
+            <td>#8</td>
+            <td>Collins Engineers, Inc.[span_60](start_span)[span_60](end_span)</td>
+            <td>64.0</td>
+            <td>31.50</td>
+            <td>22.40</td>
+            <td>10.50</td>
+            <td>31 inspection teams with multiple subs; lost points on risk/schedule narrative[span_61](start_span)[span_61](end_span)[span_62](start_span)[span_62](end_span)[span_63](start_span)[span_63](end_span).</td>
+          </tr>
+          <tr>
+            <td>#9</td>
+            <td>KCI Technologies, Inc.[span_64](start_span)[span_64](end_span)</td>
+            <td>60.0</td>
+            <td>24.80</td>
+            <td>27.18</td>
+            <td>8.10</td>
+            <td>Only 10 teams; Eval #4 noted KCI lacked personnel to prime & had little sub involvement[span_65](start_span)[span_65](end_span)[span_66](start_span)[span_66](end_span)[span_67](start_span)[span_67](end_span).</td>
+          </tr>
+          <tr>
+            <td>#10</td>
+            <td>WSP USA Inc.[span_68](start_span)[span_68](end_span)</td>
+            <td>54.0</td>
+            <td>20.40</td>
+            <td>25.20</td>
+            <td>8.10</td>
+            <td>Recycled old proposal with wrong PM name & non-BrM tracking software[span_69](start_span)[span_69](end_span)[span_70](start_span)[span_70](end_span).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 
   <!-- SLIDE 3 -->
@@ -350,42 +379,42 @@
         <span class="badge">Slide 3 • High-Margin Field Scope #1</span>
         <h1>Detailed Site Assessments & 2-Person NDT/Material Testing</h1>
       </div>
-      <div style="text-align:right; color:var(--accent-gold);">Tasks 03 & 05 (Pages 10, 12–15)</div>
+      <div style="color:var(--accent-gold); font-size:0.8rem;">Tasks 03 & 05[span_71](start_span)[span_71](end_span)[span_72](start_span)[span_72](end_span)[span_73](start_span)[span_73](end_span)[span_74](start_span)[span_74](end_span)</div>
     </div>
 
     <div class="grid-2">
       <div class="card">
         <h2>1. Detailed Site Assessments (Task 05, Item 3)</h2>
         <h3>When Triggered:</h3>
-        <p>Assigned whenever a bridge has missing plans, no shop drawings, or unquantified deterioration preventing a load rating.</p>
-        <h3 style="margin-top:10px;">Field Execution (2-Person Crew):</h3>
+        <p>Assigned when a bridge lacks plans, shop drawings, or dimension records needed for load rating[span_75](start_span)[span_75](end_span).</p>
+        <h3 style="margin-top:8px;">Field Execution (2-Person Crew):</h3>
         <ul>
-          <li>Review existing ProjectWise bridge files & BrM history prior to mobilization.</li>
-          <li>Coordinate with SCDOT District Office for lane closures / traffic control.</li>
-          <li>Measure full bridge geometry (spans, beams, substructure, section loss).</li>
-          <li><strong>Drone Authorization:</strong> RFP Page 12 explicitly permits using drones for Detailed Site Assessments without hands-on access.</li>
+          <li>Review ProjectWise bridge files & BrM history[span_76](start_span)[span_76](end_span)[span_77](start_span)[span_77](end_span)[span_78](start_span)[span_78](end_span).</li>
+          <li>Coordinate District traffic control / lane closures[span_79](start_span)[span_79](end_span).</li>
+          <li>Measure full geometry (spans, beams, section loss)[span_80](start_span)[span_80](end_span).</li>
+          <li><strong>Drone Authorization:</strong> RFP Page 12 explicitly permits using drones for Site Assessments[span_81](start_span)[span_81](end_span).</li>
         </ul>
-        <h3 style="margin-top:10px;">Required Deliverables:</h3>
+        <h3 style="margin-top:8px;">Required Deliverables:</h3>
         <ul>
-          <li><strong>Schematic Drawings:</strong> Simple CAD line drawings documenting all field dimensions for permanent SCDOT bridge files.</li>
-          <li><strong>Data Correction Form:</strong> Update BrM data and file PE-signed QC package in ProjectWise.</li>
+          <li><strong>Schematic Drawings:</strong> Simple CAD line drawings for permanent SCDOT files[span_82](start_span)[span_82](end_span).</li>
+          <li><strong>Data Correction Form:</strong> File PE-signed QC package in ProjectWise[span_83](start_span)[span_83](end_span)[span_84](start_span)[span_84](end_span)[span_85](start_span)[span_85](end_span).</li>
         </ul>
       </div>
 
       <div class="card">
         <h2>2. Non-Destructive & Material Testing (Tasks 03 & 05)</h2>
-        <h3>Explicitly Built for a "2-Person Team" (RFP Page 15):</h3>
+        <h3>Built for "2-Person Teams" (RFP Page 15)[span_86](start_span)[span_86](end_span):</h3>
         <ul>
-          <li><strong>NDT – Ground Penetrating Radar (GPR):</strong> Locate rebar spacing, cover & shear studs on concrete bridges/culverts. Estimated at <strong>30 mins/location (4 locations/bridge = 2 hrs scanning)</strong>.</li>
-          <li><strong>NDT – Rebound Hammer:</strong> Record <strong>7 readings at multiple locations</strong> along bridge decks to test concrete compressive strength.</li>
-          <li><strong>Concrete Core Sampling & Lab Testing:</strong> Pull field cores (and steel rebar coupons), patch holes, and run lab compressive strength tests to eliminate bridge load postings.</li>
-          <li><strong>Reinforcement Excavation:</strong> Demo localized concrete, measure rebar size/spacing on planless bridges, and patch concrete.</li>
-          <li><strong>Steel NDT (UT / MP / DP):</strong> Ultrasonic thickness gauges (corrosion severity) + Magnetic Particle & Dye Penetrant crack testing on steel members, pins, eyebars, and gusset plates.</li>
+          <li><strong>GPR Scanning:</strong> Locate rebar spacing, cover & shear studs. Estimated at <strong>30 mins/loc (4 locs/bridge)</strong>[span_87](start_span)[span_87](end_span)[span_88](start_span)[span_88](end_span).</li>
+          <li><strong>Rebound Hammer:</strong> 7 readings at multiple locations to test concrete compressive strength[span_89](start_span)[span_89](end_span)[span_90](start_span)[span_90](end_span).</li>
+          <li><strong>Core Sampling & Lab Testing:</strong> Extract cores, patch holes, and run lab compression tests to eliminate load postings[span_91](start_span)[span_91](end_span)[span_92](start_span)[span_92](end_span).</li>
+          <li><strong>Reinforcement Excavation:</strong> Demo concrete, measure rebar size/spacing on planless bridges, and patch[span_93](start_span)[span_93](end_span)[span_94](start_span)[span_94](end_span)[span_95](start_span)[span_95](end_span).</li>
+          <li><strong>Steel NDT (UT / MP / DP):</strong> Ultrasonic thickness gauges + Magnetic Particle & Dye Penetrant crack testing[span_96](start_span)[span_96](end_span)[span_97](start_span)[span_97](end_span).</li>
         </ul>
-        <h3 style="margin-top:10px;">Required Deliverables:</h3>
+        <h3 style="margin-top:8px;">Required Deliverables:</h3>
         <ul>
-          <li>Pre-work <strong>Testing/Sampling Plan</strong> (requires SCDOT BMO approval).</li>
-          <li><strong>Draft & Final NDT/Material Report</strong> with locations, lab results, and recommended material properties uploaded to ProjectWise.</li>
+          <li>Pre-work <strong>Testing/Sampling Plan</strong> (SCDOT BMO approval)[span_98](start_span)[span_98](end_span)[span_99](start_span)[span_99](end_span)[span_100](start_span)[span_100](end_span).</li>
+          <li><strong>Testing Report</strong> with lab results uploaded to ProjectWise[span_101](start_span)[span_101](end_span)[span_102](start_span)[span_102](end_span)[span_103](start_span)[span_103](end_span)[span_104](start_span)[span_104](end_span).</li>
         </ul>
       </div>
     </div>
@@ -398,28 +427,28 @@
         <span class="badge">Slide 4 • High-Volume Field Scope #2</span>
         <h1>Emergency Storm Response (Task 04) & NBIS Overflow (Task 02)</h1>
       </div>
-      <div style="text-align:right; color:var(--accent-gold);">Tasks 02 & 04 (Pages 6, 8–11)</div>
+      <div style="color:var(--accent-gold); font-size:0.8rem;">Tasks 02 & 04[span_105](start_span)[span_105](end_span)[span_106](start_span)[span_106](end_span)[span_107](start_span)[span_107](end_span)[span_108](start_span)[span_108](end_span)[span_109](start_span)[span_109](end_span)</div>
     </div>
 
     <div class="grid-2">
       <div class="card">
         <h2>3. Storm, Scour & Collision Inspections (Task 04)</h2>
         <ul>
-          <li><strong>800 Bridges/Month Emergency Volume (Page 6):</strong> Negotiated as a contract modification during hurricanes, floods, winter storms, or earthquakes.</li>
-          <li><strong>24-Hour Storm Response:</strong> Mobilize within 24 hours for groups of bridges to perform above-water structural checks, soundings, channel evaluations, and overhead sign/signal inspections.</li>
-          <li><strong>4-Hour Collision Response:</strong> For single-bridge vehicle/vessel strikes, a registered <strong>South Carolina PE (Structural)</strong> must respond on-site within 4 hours (and load raters within 8 hours).</li>
-          <li><strong>24/7 On-Call POCs:</strong> Primary and secondary contacts listed.</li>
-          <li><strong>Deliverables:</strong> Verbal/written Preliminary Report ASAP; finalized QC-reviewed Emergency Inspection Report in BrM and ProjectWise within <strong>2 weeks</strong>.</li>
+          <li><strong>800 Bridges/Month Emergency Volume (Page 6):</strong> Negotiated as contract modifications during severe weather[span_110](start_span)[span_110](end_span)[span_111](start_span)[span_111](end_span).</li>
+          <li><strong>24-Hour Storm Response:</strong> Mobilize within 24 hours for groups of bridges to check structural elements, soundings, channel evaluations, and signs[span_112](start_span)[span_112](end_span).</li>
+          <li><strong>4-Hour Collision Response:</strong> For vehicle/vessel strikes, a registered <strong>South Carolina PE (Structural)</strong> must respond on-site within 4 hours[span_113](start_span)[span_113](end_span).</li>
+          <li><strong>24/7 On-Call POCs:</strong> Primary and secondary contacts[span_114](start_span)[span_114](end_span)[span_115](start_span)[span_115](end_span).</li>
+          <li><strong>Deliverables:</strong> Verbal/written Preliminary Report ASAP; finalized QC-reviewed Report in BrM/ProjectWise within <strong>2 weeks</strong>[span_116](start_span)[span_116](end_span)[span_117](start_span)[span_117](end_span).</li>
         </ul>
       </div>
 
       <div class="card">
         <h2>4. Routine NBIS Inspections & BrM Support (Task 02)</h2>
         <ul>
-          <li><strong>350 Routine Bridges/Month Quota:</strong> Primes sub out geographic clusters or culvert/bridge packages to keep pace with monthly schedules.</li>
-          <li><strong>Field Execution:</strong> Element-level NBIS inspections per SCDOT BIGD and federal SNBI rules.</li>
-          <li><strong>Railroad & District Coordination:</strong> Coordinate District traffic control (night/weekend lane closures on interstates) and railroad flagging/Right-of-Entry (8 months in advance).</li>
-          <li><strong>Deliverables:</strong> Monthly tracking spreadsheets (Asset ID, bridge category SE3/SB2, lane closure modifiers) + finalized reports in BrM and ProjectWise (all prior-year reports finalized by March 1).</li>
+          <li><strong>350 Routine Bridges/Month Quota:</strong> Primes sub out geographic clusters to keep pace with monthly schedules[span_118](start_span)[span_118](end_span)[span_119](start_span)[span_119](end_span).</li>
+          <li><strong>Field Execution:</strong> Element-level NBIS inspections per SCDOT BIGD and federal SNBI rules[span_120](start_span)[span_120](end_span)[span_121](start_span)[span_121](end_span)[span_122](start_span)[span_122](end_span)[span_123](start_span)[span_123](end_span).</li>
+          <li><strong>Railroad & District Coordination:</strong> Coordinate District traffic control and railroad flagging/Right-of-Entry (8 months prior)[span_124](start_span)[span_124](end_span)[span_125](start_span)[span_125](end_span)[span_126](start_span)[span_126](end_span).</li>
+          <li><strong>Deliverables:</strong> Monthly tracking spreadsheets (Asset ID, bridge category SE3/SB2, lane closure modifiers) + finalized reports in BrM and ProjectWise[span_127](start_span)[span_127](end_span)[span_128](start_span)[span_128](end_span)[span_129](start_span)[span_129](end_span).</li>
         </ul>
       </div>
     </div>
@@ -432,108 +461,112 @@
         <span class="badge">Slide 5 • Resource Requirements & CapEx</span>
         <h1>Certifications & Equipment Investment Breakdown</h1>
       </div>
-      <div style="text-align:right; color:var(--accent-green); font-weight:700;">Total Startup: $25.6k (Lean) to $50.0k (Turnkey)</div>
+      <div style="color:var(--accent-green); font-weight:700; font-size:0.8rem;">Startup: $25.6k (Lean) to $50.0k (Turnkey)</div>
     </div>
 
     <div class="grid-2">
       <div>
-        <h2>A. Certifications & Training Budget ($11,650)</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Certification / License</th>
-              <th>Duration</th>
-              <th>Est. Cost</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>FHWA-NHI-130055</strong> (80-Hr NBIS Team Leader Course + Travel)</td>
-              <td>2 Weeks</td>
-              <td>$4,500</td>
-            </tr>
-            <tr>
-              <td><strong>FHWA-NHI-130053 & 130078</strong> (Refresher + Fracture Critical/NSTM)</td>
-              <td>6.5 Days</td>
-              <td>$1,850</td>
-            </tr>
-            <tr>
-              <td><strong>ASNT Level II NDT</strong> (Ultrasonic UT, Mag Particle MP, Dye Penetrant)</td>
-              <td>80 Hours</td>
-              <td>$3,150</td>
-            </tr>
-            <tr>
-              <td><strong>FAA Part 107 Drone License</strong> (Task 05 Site Assessments)</td>
-              <td>Exam</td>
-              <td>$175</td>
-            </tr>
-            <tr>
-              <td><strong>OSHA 30 / Confined Space / Fall Protection + SCDOT Traffic Control</strong></td>
-              <td>4 Days</td>
-              <td>$825</td>
-            </tr>
-            <tr>
-              <td><strong>SC PE Exam/Licensing & Scour Prep</strong> (NHI-130091)</td>
-              <td>Exam + 2d</td>
-              <td>$1,150</td>
-            </tr>
-            <tr class="highlight">
-              <td><strong>TOTAL CERTIFICATION & LICENSING</strong></td>
-              <td></td>
-              <td><strong>$11,650</strong></td>
-            </tr>
-          </tbody>
-        </table>
+        <h2>A. Certifications & Training ($11,650)</h2>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Certification / License</th>
+                <th>Duration</th>
+                <th>Cost</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>FHWA-NHI-130055</strong> (80-Hr NBIS Team Leader Course + Travel)[span_130](start_span)[span_130](end_span)[span_131](start_span)[span_131](end_span)[span_132](start_span)[span_132](end_span)</td>
+                <td>2 Wks</td>
+                <td>$4,500</td>
+              </tr>
+              <tr>
+                <td><strong>Refresher & Fracture Critical/NSTM</strong> (130053/78)[span_133](start_span)[span_133](end_span)[span_134](start_span)[span_134](end_span)[span_135](start_span)[span_135](end_span)[span_136](start_span)[span_136](end_span)</td>
+                <td>6.5 Days</td>
+                <td>$1,850</td>
+              </tr>
+              <tr>
+                <td><strong>ASNT Level II NDT</strong> (UT, MP, DP)[span_137](start_span)[span_137](end_span)[span_138](start_span)[span_138](end_span)</td>
+                <td>80 Hrs</td>
+                <td>$3,150</td>
+              </tr>
+              <tr>
+                <td><strong>FAA Part 107 Drone License</strong>[span_139](start_span)[span_139](end_span)</td>
+                <td>Exam</td>
+                <td>$175</td>
+              </tr>
+              <tr>
+                <td><strong>OSHA 30 / Confined Space / Traffic Control</strong>[span_140](start_span)[span_140](end_span)[span_141](start_span)[span_141](end_span)[span_142](start_span)[span_142](end_span)</td>
+                <td>4 Days</td>
+                <td>$825</td>
+              </tr>
+              <tr>
+                <td><strong>SC PE Licensing & Scour Prep</strong> (130091)[span_143](start_span)[span_143](end_span)[span_144](start_span)[span_144](end_span)[span_145](start_span)[span_145](end_span)[span_146](start_span)[span_146](end_span)[span_147](start_span)[span_147](end_span)[span_148](start_span)[span_148](end_span)</td>
+                <td>Exam+2d</td>
+                <td>$1,150</td>
+              </tr>
+              <tr class="highlight">
+                <td><strong>TOTAL CERTIFICATIONS</strong></td>
+                <td></td>
+                <td><strong>$11,650</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <div>
-        <h2>B. Equipment & Software Budget ($14k Lean / $38.3k Full)</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Equipment Item</th>
-              <th>Lean (Rent GPR)</th>
-              <th>Full Purchase</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Concrete GPR Scanner</strong> (GSSI StructureScan Mini XT / Proceq)</td>
-              <td>$0 (Rent/Job)</td>
-              <td>$20,000</td>
-            </tr>
-            <tr>
-              <td><strong>Rebound Hammer + Core Drill Rig & Lab</strong> (In-House CMT)</td>
-              <td>$950</td>
-              <td>$1,850</td>
-            </tr>
-            <tr>
-              <td><strong>Steel NDT Kit</strong> (UT Thickness Gauge, Flaw Detector, MP Yoke, DP)</td>
-              <td>$5,500</td>
-              <td>$6,500</td>
-            </tr>
-            <tr>
-              <td><strong>Enterprise Inspection Drone</strong> (Upward Gimbal for Task 05)</td>
-              <td>$4,500</td>
-              <td>$5,500</td>
-            </tr>
-            <tr>
-              <td><strong>Laser Disto, Sounding Gear, Confined Space Gas Monitor & PPE</strong></td>
-              <td>$2,050</td>
-              <td>$3,300</td>
-            </tr>
-            <tr>
-              <td><strong>Rugged Field Tablet + BrM & ProjectWise</strong> (SCDOT Provides Free)</td>
-              <td>$1,000</td>
-              <td>$1,200</td>
-            </tr>
-            <tr class="highlight">
-              <td><strong>TOTAL EQUIPMENT CAPEX</strong></td>
-              <td><strong>$14,000</strong></td>
-              <td><strong>$38,350</strong></td>
-            </tr>
-          </tbody>
-        </table>
+        <h2>B. Equipment Budget ($14k Lean / $38.3k Full)</h2>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Equipment Item</th>
+                <th>Lean</th>
+                <th>Full</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Concrete GPR Scanner</strong> (StructureScan Mini XT)[span_149](start_span)[span_149](end_span)[span_150](start_span)[span_150](end_span)</td>
+                <td>$0 (Rent)</td>
+                <td>$20,000</td>
+              </tr>
+              <tr>
+                <td><strong>Rebound Hammer + Core Rig/Lab</strong> (In-House CMT)[span_151](start_span)[span_151](end_span)[span_152](start_span)[span_152](end_span)</td>
+                <td>$950</td>
+                <td>$1,850</td>
+              </tr>
+              <tr>
+                <td><strong>Steel NDT Kit</strong> (UT Gauge, Flaw Detector, MP Yoke)[span_153](start_span)[span_153](end_span)[span_154](start_span)[span_154](end_span)</td>
+                <td>$5,500</td>
+                <td>$6,500</td>
+              </tr>
+              <tr>
+                <td><strong>Enterprise Inspection Drone</strong> (Upward Gimbal)[span_155](start_span)[span_155](end_span)</td>
+                <td>$4,500</td>
+                <td>$5,500</td>
+              </tr>
+              <tr>
+                <td><strong>Laser Disto, Sounding Gear, Gas Monitor & PPE</strong>[span_156](start_span)[span_156](end_span)[span_157](start_span)[span_157](end_span)[span_158](start_span)[span_158](end_span)</td>
+                <td>$2,050</td>
+                <td>$3,300</td>
+              </tr>
+              <tr>
+                <td><strong>Rugged Tablet + Software</strong> (SCDOT provides BrM/PW free)[span_159](start_span)[span_159](end_span)</td>
+                <td>$1,000</td>
+                <td>$1,200</td>
+              </tr>
+              <tr class="highlight">
+                <td><strong>TOTAL EQUIPMENT CAPEX</strong></td>
+                <td><strong>$14,000</strong></td>
+                <td><strong>$38,350</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </section>
@@ -542,112 +575,116 @@
   <section class="slide">
     <div class="slide-header">
       <div>
-        <span class="badge">Slide 6 • Financial Model, Overhead Recovery & Net Profit</span>
-        <h1>Unit Economics, Break-Even & Year 1 ROI Projections</h1>
+        <span class="badge">Slide 6 • Financial Model & ROI</span>
+        <h1>Unit Economics, Break-Even & Year 1 Projections</h1>
       </div>
-      <div style="text-align:right; color:var(--accent-gold); font-weight:700;">Payback Period: 10 to 19 Bridges</div>
+      <div style="color:var(--accent-gold); font-weight:700; font-size:0.8rem;">Payback: 10 to 19 Bridges</div>
     </div>
 
     <div class="grid-3">
       <div class="stat-card">
         <div class="stat-num green">10 Bridges</div>
-        <p><strong>Lean Break-Even ($25.6k):</strong> 100% of certs & core gear paid off in ~20 field days.</p>
+        <p><strong>Lean Break-Even ($25.6k):</strong> Paid off in ~20 field days.</p>
       </div>
       <div class="stat-card">
         <div class="stat-num blue">19 Bridges</div>
-        <p><strong>Full Turnkey Break-Even ($50k):</strong> Pays off brand-new GPR + all gear in &lt;2 bridges/mo.</p>
+        <p><strong>Turnkey Break-Even ($50k):</strong> Paid off in &lt;2 bridges/mo.</p>
       </div>
       <div class="stat-card">
         <div class="stat-num">~2.95x Multiplier</div>
-        <p><strong>Cost-Plus Fixed Fee Billing:</strong> Covers Direct Payroll + ~165% Corporate Overhead + 11% Fee.</p>
+        <p><strong>Cost-Plus Billing:</strong> Direct Payroll + ~165% OH + 11% Fee.</p>
       </div>
     </div>
 
     <div class="grid-2">
       <div>
-        <h2>Per-Bridge Revenue & Gross Contribution</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Sub-Consultant Scope Package</th>
-              <th>Billable Fee</th>
-              <th>Direct Cost</th>
-              <th>Gross Margin (OH + Profit)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Task 05 Detailed Site Assessment</strong> (Missing Plans + CAD Line Drawing)</td>
-              <td>$4,200</td>
-              <td>$1,420</td>
-              <td><strong>+$2,780 (66%)</strong></td>
-            </tr>
-            <tr>
-              <td><strong>Tasks 03/05 2-Person NDT & Coring Run</strong> (GPR + Rebound + Cores + Lab)</td>
-              <td>$3,600</td>
-              <td>$1,180</td>
-              <td><strong>+$2,420 (67%)</strong></td>
-            </tr>
-            <tr>
-              <td><strong>Task 04 Storm Emergency Inspection</strong> (Per Bridge in Group Mobilization)</td>
-              <td>$1,150</td>
-              <td>$390</td>
-              <td><strong>+$760 (66%)</strong></td>
-            </tr>
-            <tr>
-              <td><strong>Task 02 Routine NBIS Overflow</strong> (Per Topside Bridge/Culvert)</td>
-              <td>$950</td>
-              <td>$330</td>
-              <td><strong>+$620 (65%)</strong></td>
-            </tr>
-          </tbody>
-        </table>
+        <h2>Per-Bridge Revenue & Gross Margin</h2>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Scope Package</th>
+                <th>Fee</th>
+                <th>Cost</th>
+                <th>Margin</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Task 05 Detailed Site Assessment</strong>[span_160](start_span)[span_160](end_span)</td>
+                <td>$4,200</td>
+                <td>$1,420</td>
+                <td><strong>+$2,780 (66%)</strong></td>
+              </tr>
+              <tr>
+                <td><strong>Tasks 03/05 2-Person NDT & Coring</strong>[span_161](start_span)[span_161](end_span)[span_162](start_span)[span_162](end_span)</td>
+                <td>$3,600</td>
+                <td>$1,180</td>
+                <td><strong>+$2,420 (67%)</strong></td>
+              </tr>
+              <tr>
+                <td><strong>Task 04 Storm Emergency Inspection</strong>[span_163](start_span)[span_163](end_span)[span_164](start_span)[span_164](end_span)</td>
+                <td>$1,150</td>
+                <td>$390</td>
+                <td><strong>+$760 (66%)</strong></td>
+              </tr>
+              <tr>
+                <td><strong>Task 02 Routine NBIS Overflow</strong>[span_165](start_span)[span_165](end_span)[span_166](start_span)[span_166](end_span)</td>
+                <td>$950</td>
+                <td>$330</td>
+                <td><strong>+$620 (65%)</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <div>
-        <h2>Year 1 Financial Projections (After $50k Turnkey CapEx)</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Metric</th>
-              <th>Conservative (5 Days/Mo)</th>
-              <th>Moderate (10 Days/Mo)</th>
-              <th>Dedicated 2-Person Unit</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Annual Bridges Serviced</strong></td>
-              <td>63 Bridges</td>
-              <td>150 Bridges</td>
-              <td>314 Bridges</td>
-            </tr>
-            <tr>
-              <td><strong>Gross Annual Billing</strong></td>
-              <td>$204,450</td>
-              <td>$431,700</td>
-              <td>$791,100</td>
-            </tr>
-            <tr>
-              <td><strong>Direct Crew & Lab Cost</strong></td>
-              <td>($68,900)</td>
-              <td>($145,800)</td>
-              <td>($267,400)</td>
-            </tr>
-            <tr>
-              <td><strong>Overhead Recovery + Profit</strong></td>
-              <td>$135,550</td>
-              <td>$285,900</td>
-              <td>$523,700</td>
-            </tr>
-            <tr class="highlight">
-              <td><strong>Net Gain After $50k CapEx</strong></td>
-              <td><strong>+$85,550 (171% ROI)</strong></td>
-              <td><strong>+$235,900 (472% ROI)</strong></td>
-              <td><strong>+$473,700 (947% ROI)</strong></td>
-            </tr>
-          </tbody>
-        </table>
+        <h2>Year 1 Projections (After $50k Turnkey CapEx)</h2>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Conservative</th>
+                <th>Moderate</th>
+                <th>Dedicated Unit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Annual Bridges</strong></td>
+                <td>63 Bridges</td>
+                <td>150 Bridges</td>
+                <td>314 Bridges</td>
+              </tr>
+              <tr>
+                <td><strong>Gross Billing</strong></td>
+                <td>$204,450</td>
+                <td>$431,700</td>
+                <td>$791,100</td>
+              </tr>
+              <tr>
+                <td><strong>Direct Cost</strong></td>
+                <td>($68,900)</td>
+                <td>($145,800)</td>
+                <td>($267,400)</td>
+              </tr>
+              <tr>
+                <td><strong>Overhead + Profit</strong></td>
+                <td>$135,550</td>
+                <td>$285,900</td>
+                <td>$523,700</td>
+              </tr>
+              <tr class="highlight">
+                <td><strong>Net Gain (After CapEx)</strong></td>
+                <td><strong>+$85,550 (171%)</strong></td>
+                <td><strong>+$235,900 (472%)</strong></td>
+                <td><strong>+$473,700 (947%)</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </section>
@@ -656,55 +693,57 @@
   <section class="slide">
     <div class="slide-header">
       <div>
-        <span class="badge">Slide 7 • 90-Day Action Plan & Live Financial Simulator</span>
-        <h1>90-Day Rollout & Interactive Wage / ROI Calculator</h1>
+        <span class="badge">Slide 7 • 90-Day Action Plan & Simulator</span>
+        <h1>90-Day Rollout & Interactive ROI Calculator</h1>
       </div>
-      <div style="text-align:right; color:var(--accent-blue); font-weight:700;">Adjust Sliders Below to Model Custom Scenarios</div>
+      <div style="color:var(--accent-blue); font-weight:700; font-size:0.8rem;">Adjust Sliders to Model Custom Scenarios</div>
     </div>
 
     <div class="grid-2">
       <div class="card">
         <h2>90-Day Sub-Consultant Launch Roadmap</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Window</th>
-              <th>Key Milestones & SCDOT Deliverables</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Days 1–30</strong><br><span style="color:var(--accent-blue);">Admin & Certs</span></td>
-              <td>
-                • Set up SCDOT <strong>ProjectWise</strong> Exchange folder & upload updated <strong>SF 330</strong> + 3 client references per Key Individual (Excel format).<br>
-                • Verify Raba Kistner's <strong>SCDOT Indirect Cost Rate</strong> filing.<br>
-                • Book <strong>FHWA-NHI-130055</strong> (NBIS Team Leader), <strong>ASNT Level II NDT</strong>, and <strong>FAA Part 107 Drone</strong> exam.
-              </td>
-            </tr>
-            <tr>
-              <td><strong>Days 31–60</strong><br><span style="color:var(--accent-gold);">Internal Alignment</span></td>
-              <td>
-                • Present ROI business case to Raba Kistner leadership.<br>
-                • Assemble in-house CMT core drill, rebound hammer & lab workflows to lock in the <strong>$14k Lean CapEx path</strong>.<br>
-                • Assign in-house <strong>SC PE</strong> for QC sign-offs & 4-hr collision response while Mikayla completes PE licensing.
-              </td>
-            </tr>
-            <tr>
-              <td><strong>Days 61–90</strong><br><span style="color:var(--accent-green);">Prime Teaming</span></td>
-              <td>
-                • Pitch <strong>HDR</strong>, <strong>GFT</strong>, <strong>AI Engineers</strong>, <strong>Michael Baker</strong> & <strong>Strinteg</strong> for 2-person Site Assessments, GPR/Coring runs & Storm Mods (800/mo).<br>
-                • Lock in teaming agreements with <strong>KCI, KCA & Collins</strong> for the next RFP cycle to build our 15% Past Performance score.
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Window</th>
+                <th>Key Milestones & SCDOT Deliverables</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Days 1–30</strong><br><span style="color:var(--accent-blue);">Admin & Certs</span></td>
+                <td>
+                  • Set up SCDOT <strong>ProjectWise</strong> Exchange folder & upload SF 330 + 3 client references per Key Individual[span_167](start_span)[span_167](end_span)[span_168](start_span)[span_168](end_span)[span_169](start_span)[span_169](end_span).<br>
+                  • Verify SCDOT Indirect Cost Rate filing[span_170](start_span)[span_170](end_span).<br>
+                  • Book FHWA-NHI-130055, ASNT NDT & Drone exam[span_171](start_span)[span_171](end_span)[span_172](start_span)[span_172](end_span)[span_173](start_span)[span_173](end_span)[span_174](start_span)[span_174](end_span)[span_175](start_span)[span_175](end_span).
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Days 31–60</strong><br><span style="color:var(--accent-gold);">Internal Alignment</span></td>
+                <td>
+                  • Present ROI business case to Raba Kistner leadership.<br>
+                  • Assemble in-house CMT core drill/lab workflows for the <strong>$14k Lean CapEx path</strong>.<br>
+                  • Designate in-house <strong>SC PE</strong> for QC & 4-hr collision response[span_176](start_span)[span_176](end_span)[span_177](start_span)[span_177](end_span)[span_178](start_span)[span_178](end_span).
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Days 61–90</strong><br><span style="color:var(--accent-green);">Prime Teaming</span></td>
+                <td>
+                  • Pitch <strong>HDR, GFT, AI Engineers, MBI & Strinteg</strong> for Site Assessments, GPR/Coring runs & Storm Mods[span_179](start_span)[span_179](end_span)[span_180](start_span)[span_180](end_span)[span_181](start_span)[span_181](end_span)[span_182](start_span)[span_182](end_span)[span_183](start_span)[span_183](end_span)[span_184](start_span)[span_184](end_span)[span_185](start_span)[span_185](end_span)[span_186](start_span)[span_186](end_span)[span_187](start_span)[span_187](end_span).<br>
+                  • Lock in teaming agreements with <strong>KCI, KCA & Collins</strong> for the next RFP cycle[span_188](start_span)[span_188](end_span)[span_189](start_span)[span_189](end_span)[span_190](start_span)[span_190](end_span)[span_191](start_span)[span_191](end_span)[span_192](start_span)[span_192](end_span)[span_193](start_span)[span_193](end_span).
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <div class="card">
         <h2>Interactive Hourly Wage & ROI Simulator</h2>
         <div class="slider-group">
           <div class="slider-label">
-            <span>Inspector Direct Hourly Wage (Jerry):</span>
+            <span>Inspector Wage (Jerry):</span>
             <strong id="w1Val">$38 / hr</strong>
           </div>
           <input type="range" id="w1" min="28" max="65" value="38" oninput="calcROI()">
@@ -712,7 +751,7 @@
 
         <div class="slider-group">
           <div class="slider-label">
-            <span>EIT / Engineer Direct Hourly Wage (Mikayla):</span>
+            <span>EIT / Engineer Wage (Mikayla):</span>
             <strong id="w2Val">$45 / hr</strong>
           </div>
           <input type="range" id="w2" min="32" max="75" value="45" oninput="calcROI()">
@@ -720,7 +759,7 @@
 
         <div class="slider-group">
           <div class="slider-label">
-            <span>SCDOT FAR Billing Multiplier (1 + OH% + Fee%):</span>
+            <span>SCDOT FAR Multiplier:</span>
             <strong id="multVal">2.95x</strong>
           </div>
           <input type="range" id="mult" min="2.40" max="3.40" step="0.05" value="2.95" oninput="calcROI()">
@@ -728,7 +767,7 @@
 
         <div class="slider-group">
           <div class="slider-label">
-            <span>Site Assessment & NDT Bridges / Month (2-Person Crew):</span>
+            <span>Bridges / Month (2-Person Crew):</span>
             <strong id="bMoVal">6 Bridges / mo</strong>
           </div>
           <input type="range" id="bMo" min="2" max="20" value="6" oninput="calcROI()">
@@ -736,24 +775,24 @@
 
         <div class="slider-group">
           <div class="slider-label">
-            <span>Startup CapEx + Certs Budget ($25.6k Lean vs $50k Full):</span>
+            <span>Startup CapEx + Certs Budget:</span>
             <strong id="capVal">$25,650</strong>
           </div>
           <input type="range" id="cap" min="15000" max="60000" step="500" value="25650" oninput="calcROI()">
         </div>
 
-        <div class="grid-3" style="margin-top:12px;">
+        <div class="grid-3" style="margin-top:8px;">
           <div class="stat-card">
-            <div class="stat-num blue" id="crewRateOut" style="font-size:1.35rem;">$245/hr</div>
-            <p style="font-size:0.78rem;"><strong>2-Person Billed Rate</strong> (Labor Only)</p>
+            <div class="stat-num blue" id="crewRateOut" style="font-size:1.15rem;">$245/hr</div>
+            <p style="font-size:0.72rem;"><strong>Crew Rate</strong> (Labor)</p>
           </div>
           <div class="stat-card">
-            <div class="stat-num" id="beBridgesOut" style="font-size:1.35rem;">10 Bridges</div>
-            <p style="font-size:0.78rem;"><strong>Break-Even</strong> (Payback CapEx)</p>
+            <div class="stat-num" id="beBridgesOut" style="font-size:1.15rem;">10 Bridges</div>
+            <p style="font-size:0.72rem;"><strong>Break-Even</strong></p>
           </div>
           <div class="stat-card">
-            <div class="stat-num green" id="yrNetOut" style="font-size:1.35rem;">+$162,400</div>
-            <p style="font-size:0.78rem;"><strong>Year 1 Net Gain</strong> (After CapEx)</p>
+            <div class="stat-num green" id="yrNetOut" style="font-size:1.15rem;">+$162,400</div>
+            <p style="font-size:0.72rem;"><strong>Year 1 Net Gain</strong></p>
           </div>
         </div>
       </div>
@@ -763,10 +802,10 @@
 </div>
 
 <div class="nav-bar">
-  <button class="btn" id="prevBtn" onclick="changeSlide(-1)" disabled>← Previous Slide</button>
+  <button class="btn" id="prevBtn" onclick="changeSlide(-1)" disabled>← Prev</button>
   <div class="progress-dots" id="dotsContainer"></div>
-  <div style="font-size:0.85rem; color:var(--text-muted);" id="slideCounter">Slide 1 of 7</div>
-  <button class="btn" id="nextBtn" onclick="changeSlide(1)">Next Slide →</button>
+  <div style="font-size:0.8rem; color:var(--text-muted);" id="slideCounter">Slide 1 of 7</div>
+  <button class="btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
 </div>
 
 <script>
@@ -817,7 +856,6 @@
 
     const directCrewHr = w1 + w2;
     const billedCrewHr = directCrewHr * mult;
-    // Avg 12 crew hours per Site Assessment / NDT Bridge + 1.75 hrs PE QC ($75 base) + $650 direct unit equipment/lab fee ($180 direct cost)
     const directCostPerBridge = (directCrewHr * 12) + (75 * 1.75) + 180;
     const billedRevPerBridge = (billedCrewHr * 12) + (75 * mult * 1.75) + 650;
     const marginPerBridge = billedRevPerBridge - directCostPerBridge;
